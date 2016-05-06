@@ -1,0 +1,13 @@
+iptables -t nat -I PREROUTING -d 172.17.42.1 -p tcp --dport 25 -j DNAT --to-destination 127.0.0.1:25
+service iptables save
+
+sysctl net.ipv4.conf.docker-bridge.route_localnet=1
+
+/etc/sysconfig/network-interfaces/ifcfg-docker-bridge:
+DEVICE=docker-bridge
+TYPE=Bridge
+IPADDR=172.17.42.1
+NETMASK=255.255.255.0
+ONBOOT=yes
+BOOTPROTO=none
+DELAY=0
